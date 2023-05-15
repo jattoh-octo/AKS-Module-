@@ -5,7 +5,54 @@ This terraform module creates an [Azure Kubernetes Service](https://azure.micros
 
 Inside the cluster default node pool, [velero](https://velero.io/docs/) and [cert-manager](https://cert-manager.io/docs/) are installed.
 
+# Cert Manager 
+[cert-manager](https://cert-manager.io/docs/)
+
+cert-manager is an open-source, Kubernetes-native tool that automates the management of X.509 certificates within a Kubernetes cluster. It is developed and maintained by the cert-manager.io project. The primary use case of cert-manager is to automate the process of issuing, renewing, and managing TLS certificates for your applications running on Kubernetes.
+
+Some key features of cert-manager include:
+
+Issuing certificates: cert-manager automates the issuance of TLS certificates for your Kubernetes applications. It supports various certificate authorities (CAs) like Let's Encrypt, HashiCorp Vault, and self-signed certificates, among others.
+
+Renewing certificates: cert-manager monitors the validity of the certificates and automatically renews them before they expire. This ensures that your applications always have valid TLS certificates.
+
+Integration with Ingress: cert-manager integrates seamlessly with Kubernetes Ingress resources, making it easy to secure your applications with TLS. You can configure cert-manager to issue certificates based on Ingress annotations or using the newer Certificate custom resource definition (CRD).
+
+Certificate management using CRDs: cert-manager introduces several custom resource definitions (CRDs) like Issuer, ClusterIssuer, Certificate, and CertificateRequest to model and manage certificate issuance and configuration.
+
+Supporting multiple issuers: cert-manager allows you to configure multiple issuers within the same cluster, making it easy to use different certificate authorities for different applications or namespaces.
+
+Private key management: cert-manager securely stores and manages private keys associated with the certificates, ensuring that they are not exposed or compromised.
+
+# valero
+[velero](https://velero.io/docs/) 
+Velero is an open-source tool used for backup and recovery of Kubernetes cluster resources and persistent volumes. Its primary use cases include:
+
+Disaster Recovery: Velero can create and store backups of your entire Kubernetes cluster, including its resources (e.g., deployments, services, and config maps) and associated persistent volumes. In case of a disaster, such as a cluster outage, accidental deletion, or data corruption, Velero allows you to restore the cluster to a previous state from a backup.
+
+Cluster Migration: Velero can be used to migrate resources and persistent volumes between different Kubernetes clusters. This can be particularly useful when you need to move your applications from one cluster to another, such as during a cloud provider migration, or when upgrading to a new Kubernetes version.
+
+Backup Scheduling: Velero supports scheduled backups, allowing you to automatically create backups at regular intervals (e.g., daily, weekly, or monthly). This ensures that you have consistent, up-to-date backups of your cluster resources and data.
+
+Granular Restores: Velero allows you to restore specific resources or namespaces instead of the entire cluster. This can be useful when you need to recover a single application or service without affecting the rest of the cluster.
+
+Backup Verification: Velero includes features to verify the integrity of your backups, such as the ability to perform test restores in a separate namespace, ensuring that your backups are reliable and usable in case of a disaster.
+
+# Kured 
 Inside each node pool, [Kured](https://github.com/weaveworks/kured) is installed as a daemonset.
+Kured, which stands for "KUbernetes REboot Daemon," is an open-source tool developed by Weaveworks. The primary use case of Kured is to automatically manage and orchestrate the reboot process of nodes in a Kubernetes cluster after a kernel update or other system updates that require a reboot.
+
+Kured helps ensure that the reboot process does not disrupt the running applications and services in the cluster. It does this by following a coordinated approach:
+
+Detecting the need for a reboot: Kured continuously monitors the nodes in the cluster for the presence of a specific file (e.g., /var/run/reboot-required), which indicates that a reboot is necessary. This file is usually created by the system package manager after a kernel update or other system updates that need a reboot.
+
+Draining the node: Before rebooting a node, Kured safely drains it, which involves evicting all the running pods and marking the node as unschedulable. This ensures that new pods are not scheduled on the node during the reboot process and that the running pods are rescheduled on other available nodes in the cluster.
+
+Rebooting the node: Once the node is drained, Kured reboots it. After the reboot, the node becomes schedulable again, and the Kubernetes control plane can schedule new pods on it.
+
+Coordinating reboots: Kured can be configured to reboot nodes one at a time or in batches, ensuring that the cluster maintains high availability and does not experience downtime during the update process.
+
+By automating the node reboot process, Kured helps maintain the stability, security, and availability of Kubernetes clusters and simplifies the administration of system updates in large-scale deployments.
 
 This module also configures logging to a [Log Analytics Workspace](https://docs.microsoft.com/en-us/azure/azure-monitor/learn/quick-create-workspace),
 deploys the [Azure Active Directory Pod Identity](https://github.com/Azure/aad-pod-identity) and creates some
