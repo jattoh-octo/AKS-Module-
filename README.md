@@ -1,5 +1,5 @@
 # Azure Kubernetes Service
-[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/aks/azurerm/)
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules//aks/azurerm/)
 
 This terraform module creates an [Azure Kubernetes Service](https://azure.microsoft.com/fr-fr/services/kubernetes-service/) and its associated [Azure Application Gateway](https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-overview) as ingress controller.
 
@@ -23,13 +23,13 @@ deploys the [Azure Active Directory Pod Identity](https://github.com/Azure/aad-p
 
 ## Usage
 
-This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) too which set some terraform variables in the environment needed by this module.
-More details about variables set by the `terraform wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
+This module is optimized to work with the [ terraform-wrapper](https://github.com//terraform-wrapper) too which set some terraform variables in the environment needed by this module.
+More details about variables set by the `terraform wrapper` available in the [documentation](https://github.com//terraform-wrapper#environment).
 
 The helm and kubernetes providers must be defined at the root level and then passed to the module via the provider block as in the examples.
 
 <!-- BEGIN_TF_DOCS -->
-## Global versioning rule for Claranet Azure modules
+## Global versioning rule for  Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
@@ -50,9 +50,9 @@ More details are available in the [CONTRIBUTING.md](./CONTRIBUTING.md#pull-reque
 
 ## Usage
 
-This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool
+This module is optimized to work with the [ terraform-wrapper](https://github.com//terraform-wrapper) tool
 which set some terraform variables in the environment needed by this module.
-More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
+More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com//terraform-wrapper#environment).
 
 ```hcl
 locals {
@@ -60,14 +60,14 @@ locals {
 }
 
 module "azure_region" {
-  source  = "claranet/regions/azurerm"
+  source  = "/regions/azurerm"
   version = "x.x.x"
 
   azure_region = var.azure_region
 }
 
 module "rg" {
-  source  = "claranet/rg/azurerm"
+  source  = "/rg/azurerm"
   version = "x.x.x"
 
   location    = module.azure_region.location
@@ -77,7 +77,7 @@ module "rg" {
 }
 
 module "azure_virtual_network" {
-  source  = "claranet/vnet/azurerm"
+  source  = "/vnet/azurerm"
   version = "x.x.x"
 
   environment    = var.environment
@@ -92,7 +92,7 @@ module "azure_virtual_network" {
 }
 
 module "node_network_subnet" {
-  source  = "claranet/subnet/azurerm"
+  source  = "/subnet/azurerm"
   version = "x.x.x"
 
   environment    = var.environment
@@ -111,7 +111,7 @@ module "node_network_subnet" {
 }
 
 module "appgw_network_subnet" {
-  source  = "claranet/subnet/azurerm"
+  source  = "/subnet/azurerm"
   version = "x.x.x"
 
   environment    = var.environment
@@ -128,7 +128,7 @@ module "appgw_network_subnet" {
 }
 
 module "global_run" {
-  source  = "claranet/run/azurerm"
+  source  = "/run/azurerm"
   version = "x.x.x"
 
   client_name    = var.client_name
@@ -149,7 +149,7 @@ resource "tls_private_key" "key" {
 }
 
 module "aks" {
-  source  = "claranet/aks/azurerm"
+  source  = "/aks/azurerm"
   version = "x.x.x"
 
   providers = {
@@ -219,7 +219,7 @@ module "aks" {
 }
 
 module "acr" {
-  source  = "claranet/acr/azurerm"
+  source  = "/acr/azurerm"
   version = "x.x.x"
 
   location            = module.azure_region.location
@@ -249,7 +249,7 @@ module "acr" {
 |------|--------|---------|
 | appgw | ./tools/agic | n/a |
 | certmanager | ./tools/cert-manager | n/a |
-| diagnostic\_settings | claranet/diagnostic-settings/azurerm | ~> 6.4.1 |
+| diagnostic\_settings | /diagnostic-settings/azurerm | ~> 6.4.1 |
 | infra | ./modules/infra | n/a |
 | kured | ./tools/kured | n/a |
 | velero | ./tools/velero | n/a |
